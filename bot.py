@@ -1,8 +1,6 @@
 import logging
-import json
 import os
 from datetime import datetime
-from typing import Dict, Set, List, Tuple
 from dotenv import load_dotenv
 from telegram import InlineKeyboardButton, Update, InlineKeyboardMarkup
 from telegram.ext import (
@@ -13,14 +11,20 @@ from telegram.ext import (
     MessageHandler,
     filters
 )
-load_dotenv()
-BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# Настройка логирования
+# Настройка логирования для Railway
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
+logger = logging.getLogger(__name__)
+
+# Получение токена из переменных окружения Railway
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+
+if not BOT_TOKEN:
+    logger.error("BOT_TOKEN не найден в переменных окружения!")
+    raise ValueError("BOT_TOKEN не установлен")
 
 # Эмодзи для кнопок
 EMOJI_YES = "👍"
